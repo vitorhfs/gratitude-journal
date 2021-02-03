@@ -1,11 +1,15 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
-import { Bootstrap, find } from "./bootstrap";
+import * as cors from 'cors';
+import routes from './routes';
+import * as express from 'express';
 
-createConnection()
-    .then(async _connection => {
-        await Bootstrap().catch(err => console.log(err));
-    
-        await find().catch(err => console.log(err));
-    })
-    .catch(error => console.log(error));
+const app = express();
+
+createConnection();
+
+app.use(cors());
+app.use(express.json());
+app.use(routes);
+
+app.listen(3333);

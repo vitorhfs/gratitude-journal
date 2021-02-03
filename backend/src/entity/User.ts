@@ -13,5 +13,5 @@ export class User {
     auth: string;
 
     @OneToMany(type => Phrase, phrase => phrase.user)
-    phrases: Promise<Phrase[]>;
+    phrases: Phrase[];
 }

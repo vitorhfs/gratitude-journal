@@ -13,5 +13,5 @@ export class Phrase {
   date: string;
 
   @ManyToOne(type => User, user => user.phrases)
-  user: Promise<User>;
+  user: string;
 }
