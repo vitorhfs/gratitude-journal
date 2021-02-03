@@ -1,18 +1,17 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Phrase } from "./Phrase";
 
-@Entity()
+@Entity({ name: 'users'})
 export class User {
-
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: number;
 
-    @Column()
-    firstName: string;
+    @Column({ type: 'varchar', length: 150})
+    name: string;
 
     @Column()
-    lastName: string;
+    auth: string;
 
-    @Column()
-    age: number;
-
+    @OneToMany(type => Phrase, phrase => phrase.user)
+    phrases: Promise<Phrase[]>;
 }
