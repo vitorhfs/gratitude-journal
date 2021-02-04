@@ -8,7 +8,6 @@ export default {
       const newUser = getRepository(User).create(req.body);
       const userCreated = await getRepository(User).save(newUser);
 
-      console.log(newUser);
       return res.status(201).json({
         userCreated
       });
