@@ -34,6 +34,14 @@ export class PhrasesService {
       );
   }
 
+  editPhrase(phraseId: string, content: string): Observable<{}>{
+    return this.http.put(`${this.url}${phraseId}`, {
+      content: content
+    }, this.httpOptions).pipe(
+      catchError(this.handleError({}))
+    )
+  }
+
   deletePhrase(phraseId: string): Observable<{}>{
     return this.http.delete(`${this.url}${phraseId}`)
       .pipe(

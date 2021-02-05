@@ -1,6 +1,7 @@
 import { Component, OnInit,  } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 import { UserObj } from '../models/user.model';
 import { PhrasesService } from '../service/phrases.service';
@@ -25,10 +26,13 @@ export class MainScreenComponent implements OnInit {
     public phrasesService: PhrasesService, 
     public userService: UserService,
     public actionSheetController: ActionSheetController,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public route: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter(){
     this.getUsers();
     this.getPhrases();
   }
@@ -85,14 +89,11 @@ export class MainScreenComponent implements OnInit {
         }, {
           text: 'Edit',
           handler: () => {
-            console.log('edit page');
+            this.route.navigate(['detail', this.currentPhraseId])
           }
         }, {
           text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('going back');            
-          }
+          role: 'cancel',          
         }
       ]
     });    

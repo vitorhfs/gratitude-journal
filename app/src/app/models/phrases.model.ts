@@ -5,3 +5,9 @@ export interface PhrasesList {
     date: string;
   }[]
 };
+
+export interface PhraseSingle {
+  id: string;
+  content: string;
+  date: string;
+}

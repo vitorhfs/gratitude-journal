@@ -9,11 +9,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { MainScreenComponent } from './main-screen/main-screen.component';
+import { EditPhraseComponent } from './edit-phrase/edit-phrase.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainScreenComponent
+    MainScreenComponent,
+    EditPhraseComponent
   ],
   entryComponents: [],
   imports: [
@@ -21,7 +24,8 @@ import { MainScreenComponent } from './main-screen/main-screen.component';
     CommonModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: 
     RouteReuseStrategy, 

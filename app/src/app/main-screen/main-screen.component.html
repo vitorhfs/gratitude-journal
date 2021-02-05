@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-list padding *ngIf="phrases$">
     <ion-item padding *ngFor="let item of phrases$" (click)="presentActionSheet(); currentPhraseId = item.id">
       <h2>{{ item.content }}</h2>
@@ -13,7 +13,7 @@
   </ion-list>
   <ion-item *ngIf="newPhraseState">
     <ion-label position="stacked">What made you grateful today?</ion-label>
-    <ion-input></ion-input>
+    <ion-textarea></ion-textarea>
   </ion-item>
   <ion-item *ngIf="!newPhraseState">
     <h1>Some animation at page loading telling the user that he already wrote today</h1>
