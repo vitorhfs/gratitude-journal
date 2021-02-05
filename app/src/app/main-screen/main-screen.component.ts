@@ -11,7 +11,11 @@ import { UserService } from '../service/user.service';
 })
 export class MainScreenComponent implements OnInit {
   user$: UserObj;
-  phrases$: PhrasesList;
+  phrases$: {
+    id: string;
+    content: string;
+    date: string;
+  }[];
 
   constructor(
     public phrasesService: PhrasesService, 
@@ -31,7 +35,7 @@ export class MainScreenComponent implements OnInit {
   getPhrases() {
     this.phrasesService.getPhrasesList()
     .subscribe(phrases => {
-      this.phrases$ = phrases
+      this.phrases$ = phrases.phrasesList;
     });
   }
 }

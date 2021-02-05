@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="user$">Hi, {{user$.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="phrases$">
+    <ion-item *ngFor="let item of phrases$">
+      <h2>{{ item.content }}</h2>
+      <p>{{ item.date }}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
