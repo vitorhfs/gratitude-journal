@@ -1,7 +1,7 @@
 export interface PhrasesList {
-  phrases: {
+  phrasesList: {
     id: string;
     content: string;
     date: string;
   }[]
-}
+};
