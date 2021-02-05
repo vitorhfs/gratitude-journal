@@ -19,6 +19,7 @@ export class MainScreenComponent implements OnInit {
     date: string;
   }[];
   currentPhraseId: string;
+  newPhraseState: boolean;
 
   constructor(
     public phrasesService: PhrasesService, 
@@ -40,7 +41,8 @@ export class MainScreenComponent implements OnInit {
   getPhrases() {
     this.phrasesService.getPhrasesList()
     .subscribe(phrases => {
-      this.phrases$ = phrases.phrasesList;
+      this.phrases$ = phrases.phrasesList.sort((a, b) => +a.date - +b.date);
+      this.checkPhraseInput();
     });
   }
 
@@ -50,6 +52,23 @@ export class MainScreenComponent implements OnInit {
       console.log(item);
       this.getPhrases();
     })
+  }
+
+  checkPhraseInput(){
+    if (this.phrases$ === []){
+      this.newPhraseState = true;
+      return;
+    }
+    const regex = /\d{4}\-\d{2}\-\d{2}/;
+    const date = new Date(+this.phrases$[this.phrases$.length - 1].date)
+    .toISOString().match(regex);
+    const dateNow = new Date(Date.now()).toISOString().match(regex);
+
+    if (date[0] === dateNow[0]){
+      this.newPhraseState = false;
+    } else {
+      this.newPhraseState = true;
+    }
   }
 
   async presentActionSheet(){

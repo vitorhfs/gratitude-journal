@@ -11,4 +11,11 @@
       <p>{{ item.date | date: 'short' }}</p>
     </ion-item>
   </ion-list>
+  <ion-item *ngIf="newPhraseState">
+    <ion-label position="stacked">What made you grateful today?</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item *ngIf="!newPhraseState">
+    <h1>Some animation at page loading telling the user that he already wrote today</h1>
+  </ion-item>
 </ion-content>
