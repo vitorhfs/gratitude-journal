@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { PhrasesList } from '../models/phrases.model';
+import { Component, OnInit,  } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+
 import { UserObj } from '../models/user.model';
 import { PhrasesService } from '../service/phrases.service';
 import { UserService } from '../service/user.service';
@@ -16,10 +18,13 @@ export class MainScreenComponent implements OnInit {
     content: string;
     date: string;
   }[];
+  currentPhraseId: string;
 
   constructor(
     public phrasesService: PhrasesService, 
-    public userService: UserService
+    public userService: UserService,
+    public actionSheetController: ActionSheetController,
+    public alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -37,5 +42,64 @@ export class MainScreenComponent implements OnInit {
     .subscribe(phrases => {
       this.phrases$ = phrases.phrasesList;
     });
+  }
+
+  deletePhrases(id: string){
+    this.phrasesService.deletePhrase(id)
+    .subscribe(item => {
+      console.log(item);
+      this.getPhrases();
+    })
+  }
+
+  async presentActionSheet(){
+    const actionSheet = await this.actionSheetController.create({
+      header: '',
+      cssClass: 'actionsheet__phrase',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.alertConfirmDelete();
+          }
+        }, {
+          text: 'Edit',
+          handler: () => {
+            console.log('edit page');
+          }
+        }, {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('going back');            
+          }
+        }
+      ]
+    });    
+
+    await actionSheet.present();
+  }  
+
+  async alertConfirmDelete(){
+    const alert = await this.alertController.create({
+      cssClass: 'alert__delete',
+      header: 'Delete Phrase',
+      message: 'Are you sure to delete this phrase?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.deletePhrases(this.currentPhraseId);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

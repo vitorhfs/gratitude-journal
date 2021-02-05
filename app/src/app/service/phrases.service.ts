@@ -12,7 +12,7 @@ export class PhrasesService {
   readonly url: string;
 
   constructor(public http: HttpClient, private userService: UserService) { 
-    this.url = `http://localhost:3333`;
+    this.url = `http://localhost:3333/phrases/`;
   }
 
   httpOptions = {
@@ -21,16 +21,23 @@ export class PhrasesService {
 
   private handleError<T>(result?: T){
     return (_error: any): Observable<T> => {
-      return of(result as T)
+      return of(result as T);
     }
   }
 
   getPhrasesList(): Observable<PhrasesList>{    
-    return this.http.get<PhrasesList>(`${this.url}/phrases/${this.userService.userId}`)
-    .pipe(
-      catchError(this.handleError<PhrasesList>({
-        phrasesList: []
-      }))
-    );
+    return this.http.get<PhrasesList>(`${this.url}${this.userService.userId}`)
+      .pipe(
+        catchError(this.handleError<PhrasesList>({
+          phrasesList: []
+        }))
+      );
+  }
+
+  deletePhrase(phraseId: string): Observable<{}>{
+    return this.http.delete(`${this.url}${phraseId}`)
+      .pipe(
+        catchError(this.handleError({}))
+      )
   }
 }

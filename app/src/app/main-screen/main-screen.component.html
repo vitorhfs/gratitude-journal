@@ -4,11 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list *ngIf="phrases$">
-    <ion-item *ngFor="let item of phrases$">
+<ion-content>
+  <ion-list padding *ngIf="phrases$">
+    <ion-item padding *ngFor="let item of phrases$" (click)="presentActionSheet(); currentPhraseId = item.id">
       <h2>{{ item.content }}</h2>
-      <p>{{ item.date }}</p>
+      <p>{{ item.date | date: 'short' }}</p>
     </ion-item>
   </ion-list>
 </ion-content>
