@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UserObj } from '../models/user.model';
 import { PhrasesService } from '../service/phrases.service';
 import { UserService } from '../service/user.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-main-screen',
@@ -21,6 +22,7 @@ export class MainScreenComponent implements OnInit {
   }[];
   currentPhraseId: string;
   newPhraseState: boolean;
+  text = new FormControl('');
 
   constructor(
     public phrasesService: PhrasesService, 
@@ -48,6 +50,16 @@ export class MainScreenComponent implements OnInit {
       this.phrases$ = phrases.phrasesList.sort((a, b) => +a.date - +b.date);
       this.checkPhraseInput();
     });
+  }
+
+  postPhrase() {
+    if(!this.text.value) return;
+
+    this.phrasesService.postPhrase(this.user$.id, this.text.value)
+    .subscribe(_ => {
+      this.text.setValue('');
+      this.getPhrases();
+    })
   }
 
   deletePhrases(id: string){

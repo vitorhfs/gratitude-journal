@@ -34,6 +34,17 @@ export class PhrasesService {
       );
   }
 
+  postPhrase(userId: string, content: string){
+    return this.http.post(`${this.url}${userId}`, {
+      content: content
+    }, this.httpOptions)
+    .pipe(
+      catchError(this.handleError<{content: string}>({
+        content: ''
+      }))
+    )
+  }
+
   editPhrase(phraseId: string, content: string): Observable<{}>{
     return this.http.put(`${this.url}${phraseId}`, {
       content: content

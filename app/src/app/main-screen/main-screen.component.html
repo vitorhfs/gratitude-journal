@@ -13,7 +13,8 @@
   </ion-list>
   <ion-item *ngIf="newPhraseState">
     <ion-label position="stacked">What made you grateful today?</ion-label>
-    <ion-textarea></ion-textarea>
+    <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
+    <ion-button (click)="postPhrase()">Confirm</ion-button>
   </ion-item>
   <ion-item *ngIf="!newPhraseState">
     <h1>Some animation at page loading telling the user that he already wrote today</h1>
