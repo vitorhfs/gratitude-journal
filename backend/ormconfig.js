@@ -1,10 +1,13 @@
 module.exports = {
    "type": "postgres",
-   "url": "postgres://tutgaoguktvtar:a2d0ed8e615f101c4eb975d44f7a3aff1cae594ea62714e98682875f85d9f0d9@ec2-54-211-77-238.compute-1.amazonaws.com:5432/de3uaeqagtuqls",
+   "url": process.env.DATABASE_URL,
    "synchronize": true,
    "logging": false,
-   "ssl": {
-      ca: process.env.SSL_CERT
+   "ssl": true,
+   "extra": {
+      "ssl": {
+         "rejectUnauthorized": false
+      }
    },
    "entities": [
       "build/entity/**/*.js"
