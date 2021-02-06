@@ -3,10 +3,13 @@ import "reflect-metadata";
 import * as cors from 'cors';
 import routes from './routes';
 import * as express from 'express';
+import { createConnections } from 'typeorm';
 
 dotenv.config();
 
 const app = express();
+
+createConnections();
 
 app.use(cors());
 app.use(express.json());
