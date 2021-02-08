@@ -12,7 +12,7 @@ export class PhrasesService {
   readonly url: string;
 
   constructor(public http: HttpClient, private userService: UserService) { 
-    this.url = `http://localhost:3333/phrases/`;
+    this.url = `https://backendbasic.herokuapp.com/phrases/`;
   }
 
   httpOptions = {

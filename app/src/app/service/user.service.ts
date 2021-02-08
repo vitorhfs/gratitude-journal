@@ -8,18 +8,18 @@ import { UserProm } from '../models/user.model';
 })
 export class UserService {
   readonly url: string;
-  userId: string = `56dc33ec-0d9c-49c5-8f72-a1470556503b`;
+  userId: string = `39f3e6b2-041e-44e9-821f-1dc3444d2f57`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(public http: HttpClient) { 
-    this.url = `http://localhost:3333`;
+    this.url = `https://backendbasic.herokuapp.com/users/`;
   }
 
   //later to be added a google auth that will store in cache to validate the user and then the API respond with the client ID
   getUser(loginId: string): Observable<UserProm>{
-    return this.http.get<UserProm>(`${this.url}/users/${loginId}`);
+    return this.http.get<UserProm>(`${this.url}${loginId}`);
   }
 }
