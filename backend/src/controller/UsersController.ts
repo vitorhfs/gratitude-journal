@@ -19,12 +19,12 @@ export default {
     }
   },
 
-  async getUser (req: Request, res: Response){
-    const id = req.params.id;
+  async getUser (req: Request, res: Response){    
     try {
-      const user = await getRepository(User).findOne({where: {id: id}});     
+      const user = await getRepository(User).findOne({where: {auth: req.body.auth}});     
       return res.status(200).json({
-        user
+        userId: user.id,
+        username: user.name
       });
     } catch (error) {
       return res.status(401).json({

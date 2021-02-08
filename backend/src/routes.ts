@@ -4,7 +4,7 @@ import UsersController from './controller/UsersController';
 
 const routes = Router();
 
-routes.get('/users/:id', UsersController.getUser);
+routes.get('/users/', UsersController.getUser);
 routes.post('/users', UsersController.create);
 
 routes.get('/phrases/:id', PhrasesController.get);
