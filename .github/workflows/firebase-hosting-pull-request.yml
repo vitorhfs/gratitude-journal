@@ -13,5 +13,6 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GRATITUDE_JOURNAL_303716 }}'
           projectId: gratitude-journal-303716
+          entryPoint: './app'
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
