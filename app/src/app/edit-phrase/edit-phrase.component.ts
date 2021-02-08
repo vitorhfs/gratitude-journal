@@ -35,7 +35,6 @@ export class EditPhraseComponent implements OnInit {
   }
 
   async confirm(){
-    console.log(this.name);    
     const alert = await this.alertController.create({
       cssClass: 'alert__editing',
       header: 'Confirm Editing',

@@ -65,7 +65,6 @@ export class MainScreenComponent implements OnInit {
   deletePhrases(id: string){
     this.phrasesService.deletePhrase(id)
     .subscribe(item => {
-      console.log(item);
       this.getPhrases();
     })
   }

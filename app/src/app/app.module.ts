@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { MainScreenComponent } from './main-screen/main-screen.component';
 import { EditPhraseComponent } from './edit-phrase/edit-phrase.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{ provide: 
     RouteReuseStrategy, 

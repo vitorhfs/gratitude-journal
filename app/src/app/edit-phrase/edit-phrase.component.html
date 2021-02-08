@@ -9,5 +9,5 @@
 <ion-content [fullscreen]="true" *ngIf="phrase">
   <ion-label></ion-label>
   <ion-input #nameInput [formControl]="name" (input)="name.setValue(nameInput.value)"></ion-input>
-  <ion-button (click)="confirm()" expand="block">Salvar alteração</ion-button>
+  <ion-button (click)="confirm()" expand="block">Confirm Editing</ion-button>
 </ion-content>
