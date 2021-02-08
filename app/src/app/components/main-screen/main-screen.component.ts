@@ -3,9 +3,9 @@ import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { UserObj } from '../models/user.model';
-import { PhrasesService } from '../service/phrases.service';
-import { UserService } from '../service/user.service';
+import { UserObj } from '../../models/user.model';
+import { PhrasesService } from '../../service/phrases.service';
+import { UserService } from '../../service/user.service';
 import { FormControl } from '@angular/forms';
 
 @Component({

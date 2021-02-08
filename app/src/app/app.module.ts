@@ -2,23 +2,32 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { AuthModule } from '@auth0/auth0-angular';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CommonModule } from '@angular/common';
-import { MainScreenComponent } from './main-screen/main-screen.component';
-import { EditPhraseComponent } from './edit-phrase/edit-phrase.component';
+import { MainScreenComponent } from './components/main-screen/main-screen.component';
+import { EditPhraseComponent } from './components/edit-phrase/edit-phrase.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { environment as env} from '../environments/environment';
+import { AuthenticationButtonComponent } from './components/authentication-button/authentication-button.component';
+import { LoginButtonComponent } from './components/login-button/login-button.component';
+import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
+import { SignupButtonComponent } from './components/signup-button/signup-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainScreenComponent,
-    EditPhraseComponent
+    EditPhraseComponent,
+    AuthenticationButtonComponent,
+    LoginButtonComponent,
+    LogoutButtonComponent,
+    SignupButtonComponent
   ],
   entryComponents: [],
   imports: [
@@ -28,7 +37,10 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    AuthModule.forRoot({
+      ...env.auth
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: env.production })
   ],
   providers: [{ provide: 
     RouteReuseStrategy, 

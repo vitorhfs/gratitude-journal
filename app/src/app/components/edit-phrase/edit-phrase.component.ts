@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PhraseSingle } from '../models/phrases.model';
-import { PhrasesService } from '../service/phrases.service';
+import { PhraseSingle } from '../../models/phrases.model';
+import { PhrasesService } from '../../service/phrases.service';
 import { FormControl } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 

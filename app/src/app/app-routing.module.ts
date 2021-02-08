@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { EditPhraseComponent } from './edit-phrase/edit-phrase.component';
-import { MainScreenComponent } from './main-screen/main-screen.component';
+import { AuthenticationButtonComponent } from './components/authentication-button/authentication-button.component';
+import { EditPhraseComponent } from './components/edit-phrase/edit-phrase.component';
+import { MainScreenComponent } from './components/main-screen/main-screen.component';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: MainScreenComponent
+    component: AuthenticationButtonComponent
   },
   {
     path: 'detail/:id',
