@@ -21,7 +21,7 @@ export default {
 
   async getUser (req: Request, res: Response){    
     try {
-      const user = await getRepository(User).findOne({where: {auth: req.body.auth}});     
+      const user = await getRepository(User).findOne({where: {auth: req.params.auth}});     
       return res.status(200).json({
         userId: user.id,
         username: user.name

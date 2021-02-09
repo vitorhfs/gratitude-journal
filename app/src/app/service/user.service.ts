@@ -2,24 +2,38 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { UserProm } from '../models/user.model';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   readonly url: string;
-  userId: string = `39f3e6b2-041e-44e9-821f-1dc3444d2f57`;
+  userId: string;
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+  private handleError<T>(result?: T){
+    return (_error: any): Observable<T> => {
+      return of(result as T);
+    }
+  }
 
   constructor(public http: HttpClient) { 
     this.url = `https://backendbasic.herokuapp.com/users/`;
   }
 
-  //later to be added a google auth that will store in cache to validate the user and then the API respond with the client ID
-  getUser(loginId: string): Observable<UserProm>{
-    return this.http.get<UserProm>(`${this.url}${loginId}`);
+  postUser(auth: string, name: string): Observable<{}>{
+    return this.http.post(`${this.url}`, {
+      name: name,
+      auth: auth
+    }).pipe(
+      catchError(this.handleError({}))
+    );
+  }
+
+  getUser(auth: string): Observable<{userId: string; username: string} | {}>{
+    return this.http.get<{userId: string; username: string} | {}>(`${this.url}${auth}`)
+      .pipe(
+        catchError(this.handleError({}))
+      );
   }
 }

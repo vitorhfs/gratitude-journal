@@ -6,7 +6,7 @@ import { MainScreenComponent } from './components/main-screen/main-screen.compon
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: AuthenticationButtonComponent
   },
   {
@@ -14,8 +14,8 @@ const routes: Routes = [
     component: EditPhraseComponent
   },
   {
-    path: '',
-    redirectTo: 'home',
+    path: 'home',
+    component: MainScreenComponent,
     pathMatch: 'full'
   },
 ];

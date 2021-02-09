@@ -71,7 +71,7 @@ exports.default = {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne({ where: { auth: req.body.auth } })];
+                        return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne({ where: { auth: req.params.auth } })];
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, res.status(200).json({
