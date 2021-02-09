@@ -10,8 +10,8 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./authentication-button.component.scss'],
 })
 export class AuthenticationButtonComponent implements OnInit {
-  name: string;
-  userId: string;
+  login: boolean;
+  aud: string;
 
   constructor(
     public auth: AuthService,
@@ -19,30 +19,45 @@ export class AuthenticationButtonComponent implements OnInit {
     public userService: UserService
   ) { }
 
-  ngOnInit() {    
+  ngOnInit() {        
     this.isLogged();
   }
 
   isLogged(){
-    this.auth.isAuthenticated$.subscribe(data => {      
-      if(data){
-        this.auth.idTokenClaims$.subscribe(data => {
-          this.verifyLoginExistence(data.aud)
-        })
+    this.auth.isAuthenticated$.subscribe(confirm => {  
+      this.login = confirm;
+      if(this.login){
+        this.validateUser();
       }
     })
   }
 
-  verifyLoginExistence(auth: string){
-    this.userService.getUser(auth)
-      .pipe(tap(
-        data => {
-          console.log(data);
-        },
-        error => {
-          console.log(error.message)
+  getUserData(auth: string, username: string){
+    this.userService.getUser(auth).subscribe(user => {          
+      this.userService.user = user;
+      if(user){
+        this.route.navigate(['home']);
+      }
+    }, error => {      
+      this.userService.postUser(auth, username)
+      .subscribe(data =>{        
+        this.userService.user = {
+          userId: data.userCreated.id,
+          username: data.userCreated.name
         }
-      ))
+
+        if(data){
+          this.route.navigate(['home']);
+        }
+      })
+    })
   }
 
+  validateUser(){
+    this.auth.user$.subscribe(data => {            
+      if(data.sub){
+        this.getUserData(data.sub, data.name)
+      }
+    })
+  }
 }

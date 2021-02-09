@@ -1,9 +1,6 @@
-export interface UserProm {
-  user: {
-    id: string;
-    name: string;
-    auth: string;
-  }
+export interface User {
+  userId: string; 
+  username: string;
 }
 
 export interface UserObj {

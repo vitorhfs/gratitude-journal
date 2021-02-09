@@ -4,6 +4,8 @@ import { PhraseSingle } from '../../models/phrases.model';
 import { PhrasesService } from '../../service/phrases.service';
 import { FormControl } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
+import { UserService } from 'src/app/service/user.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-edit-phrase',
@@ -13,21 +15,37 @@ import { AlertController } from '@ionic/angular';
 export class EditPhraseComponent implements OnInit {
   phrase: PhraseSingle;
   name: FormControl;
+  userId: string;
 
   constructor(
     public phrasesService: PhrasesService,
+    public userService: UserService,
     public route: ActivatedRoute,
     public alertController: AlertController,
-    public router: Router
+    public router: Router,
+    public auth: AuthService
   ) { }
 
   ngOnInit() {
-    this.getPhrase();    
+    this.getData();  
   }
 
-  getPhrase(){
-    const id = this.route.snapshot.paramMap.get('id')!;
-    this.phrasesService.getPhrasesList()
+  getData(){
+    this.auth.user$.subscribe(data => {
+      if(data.sub){
+        this.userService.getUser(data.sub)
+        .subscribe(user => {
+          if(user.userId){
+            this.getPhrase(user.userId)
+          }
+        });
+      }
+    })
+  }
+
+  getPhrase(userId: string){
+    const id = this.route.snapshot.paramMap.get('id')!;    
+    this.phrasesService.getPhrasesList(userId)
     .subscribe(item => {
       this.phrase = item.phrasesList.find(item => item.id === id);
       this.name = new FormControl(this.phrase.content)

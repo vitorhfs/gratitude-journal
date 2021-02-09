@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserService } from './user.service';
 import { PhrasesList } from '../models/phrases.model';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -11,8 +10,10 @@ import { catchError } from 'rxjs/operators';
 export class PhrasesService {
   readonly url: string;
 
-  constructor(public http: HttpClient, private userService: UserService) { 
-    this.url = `https://backendbasic.herokuapp.com/phrases/`;
+  constructor(
+    public http: HttpClient, 
+  ) { 
+    this.url = `https://backendbasic.herokuapp.com/phrases/`;    
   }
 
   httpOptions = {
@@ -25,8 +26,8 @@ export class PhrasesService {
     }
   }
 
-  getPhrasesList(): Observable<PhrasesList>{    
-    return this.http.get<PhrasesList>(`${this.url}${this.userService.userId}`)
+  getPhrasesList(userId: string): Observable<PhrasesList>{      
+    return this.http.get<PhrasesList>(`${this.url}${userId}`)
       .pipe(
         catchError(this.handleError<PhrasesList>({
           phrasesList: []

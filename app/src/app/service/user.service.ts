@@ -1,39 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { UserProm } from '../models/user.model';
-import { catchError } from 'rxjs/operators';
+import { User } from '../models/user.model';
+import { catchError, tap } from 'rxjs/operators';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   readonly url: string;
-  userId: string;
-
+  user: User;
+  
+  constructor(
+    public http: HttpClient,
+    public auth: AuthService
+  ) { 
+    this.url = `https://backendbasic.herokuapp.com/users/`;
+  }
+  
   private handleError<T>(result?: T){
     return (_error: any): Observable<T> => {
       return of(result as T);
     }
   }
 
-  constructor(public http: HttpClient) { 
-    this.url = `https://backendbasic.herokuapp.com/users/`;
-  }
-
-  postUser(auth: string, name: string): Observable<{}>{
+  postUser(auth: string, name: string): Observable<any>{
     return this.http.post(`${this.url}`, {
       name: name,
-      auth: auth
+      auth: this.convertAuth(auth)
     }).pipe(
       catchError(this.handleError({}))
     );
   }
 
-  getUser(auth: string): Observable<{userId: string; username: string} | {}>{
-    return this.http.get<{userId: string; username: string} | {}>(`${this.url}${auth}`)
-      .pipe(
-        catchError(this.handleError({}))
-      );
+  getUser(auth: string): Observable<User>{ 
+    return this.http.get<User>(`${this.url}${this.convertAuth(auth)}`).pipe(
+      tap(
+        data => this.user = data
+      )
+    );
+  }
+
+  convertAuth(auth: string): string{
+    const splitArray = auth.split('|');
+
+    return splitArray[1];
   }
 }

@@ -3,10 +3,11 @@ import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { UserObj } from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { PhrasesService } from '../../service/phrases.service';
 import { UserService } from '../../service/user.service';
 import { FormControl } from '@angular/forms';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-main-screen',
@@ -14,40 +15,54 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./main-screen.component.scss'],
 })
 export class MainScreenComponent implements OnInit {
-  user$: UserObj;
+  user$: User;
   phrases$: {
     id: string;
     content: string;
     date: string;
   }[];
   currentPhraseId: string;
-  newPhraseState: boolean;
+  newPhraseState: boolean = true;
   text = new FormControl('');
 
   constructor(
     public phrasesService: PhrasesService, 
     public userService: UserService,
+    public auth: AuthService,
     public actionSheetController: ActionSheetController,
     public alertController: AlertController,
     public route: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   ionViewWillEnter(){
-    this.getUsers();
-    this.getPhrases();
+    this.getUser();  
   }
 
-  getUsers() {
-    this.userService.getUser(this.userService.userId)
-    .subscribe(user => this.user$ = user.user);
+  getUser(){
+    this.auth.user$.subscribe(data => {
+      if(data.sub){
+        this.userService.getUser(data.sub)
+        .subscribe(user => {
+          this.user$ = user;
+          this.getPhrases();
+          this.checkPhraseInput();
+        });
+      }
+    })
   }
 
-  getPhrases() {
-    this.phrasesService.getPhrasesList()
-    .subscribe(phrases => {
-      this.phrases$ = phrases.phrasesList.sort((a, b) => +a.date - +b.date);
+  getPhrases() {    
+    this.phrasesService.getPhrasesList(this.user$.userId)
+    .subscribe(phrases => {      
+      if(this.phrases$){
+        this.phrases$ = phrases.phrasesList.sort((a, b) => +a.date - +b.date);               
+        this.checkPhraseInput();
+      }
+      this.phrases$ = phrases.phrasesList;
       this.checkPhraseInput();
     });
   }
@@ -55,11 +70,13 @@ export class MainScreenComponent implements OnInit {
   postPhrase() {
     if(!this.text.value) return;
 
-    this.phrasesService.postPhrase(this.user$.id, this.text.value)
-    .subscribe(_ => {
-      this.text.setValue('');
-      this.getPhrases();
-    })
+    if(this.user$){
+      this.phrasesService.postPhrase(this.user$.userId, this.text.value)
+      .subscribe(_ => {
+        this.text.setValue('');
+        this.getPhrases();
+      })
+    }
   }
 
   deletePhrases(id: string){
@@ -69,11 +86,11 @@ export class MainScreenComponent implements OnInit {
     })
   }
 
-  checkPhraseInput(){
-    if (this.phrases$ === []){
+  checkPhraseInput(){ 
+    if(this.phrases$ === []){
       this.newPhraseState = true;
-      return;
     }
+
     const regex = /\d{4}\-\d{2}\-\d{2}/;
     const date = new Date(+this.phrases$[this.phrases$.length - 1].date)
     .toISOString().match(regex);
@@ -81,8 +98,6 @@ export class MainScreenComponent implements OnInit {
 
     if (date[0] === dateNow[0]){
       this.newPhraseState = false;
-    } else {
-      this.newPhraseState = true;
     }
   }
 
@@ -125,7 +140,7 @@ export class MainScreenComponent implements OnInit {
         }, {
           text: 'Yes',
           handler: () => {
-            this.deletePhrases(this.currentPhraseId);
+            this.deletePhrases(this.currentPhraseId);                
           }
         }
       ]
