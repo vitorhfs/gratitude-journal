@@ -66,27 +66,25 @@ exports.default = {
     },
     getUser: function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var id, user, error_2;
+            var user, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        id = req.params.id;
-                        _a.label = 1;
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne({ where: { auth: req.body.auth } })];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, typeorm_1.getRepository(User_1.User).findOne({ where: { id: id } })];
-                    case 2:
                         user = _a.sent();
                         return [2 /*return*/, res.status(200).json({
-                                user: user
+                                userId: user.id,
+                                username: user.name
                             })];
-                    case 3:
+                    case 2:
                         error_2 = _a.sent();
                         return [2 /*return*/, res.status(401).json({
                                 message: 'Failed to get user, please try again',
                                 error: error_2
                             })];
-                    case 4: return [2 /*return*/];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
