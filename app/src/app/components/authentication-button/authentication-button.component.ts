@@ -10,6 +10,8 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./authentication-button.component.scss'],
 })
 export class AuthenticationButtonComponent implements OnInit {
+  name: string;
+  userId: string;
 
   constructor(
     public auth: AuthService,
@@ -22,16 +24,25 @@ export class AuthenticationButtonComponent implements OnInit {
   }
 
   isLogged(){
-    this.auth.isAuthenticated$.subscribe(data => {
+    this.auth.isAuthenticated$.subscribe(data => {      
       if(data){
-        console.log(this.auth.user$);
-        this.route.navigate(['home']);
+        this.auth.idTokenClaims$.subscribe(data => {
+          this.verifyLoginExistence(data.aud)
+        })
       }
     })
   }
 
-  verifyLoginExistence(){
-    this.auth.user$    
+  verifyLoginExistence(auth: string){
+    this.userService.getUser(auth)
+      .pipe(tap(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error.message)
+        }
+      ))
   }
 
 }
