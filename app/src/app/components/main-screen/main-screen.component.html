@@ -19,12 +19,12 @@
       <h2>{{ item.content }}</h2>
       <p>{{ item.date | date: 'short' }}</p>
     </ion-item> -->
-    <ion-card class="main__content-newPhrase" *ngIf="newPhraseState">
+    <ion-card class="main__content-newPhrase" *ngIf="(checkPhraseInput(phrases$)) === true">
       <ion-label position="stacked">What made you grateful today?</ion-label>
       <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
       <ion-button (click)="postPhrase()">Confirm</ion-button>
     </ion-card>
-    <ion-text class="main__content-existingPhrase" *ngIf="!newPhraseState">
+    <ion-text class="main__content-existingPhrase" *ngIf="(checkPhraseInput(phrases$)) === false">
       <h1>You've already written today! :)</h1>
     </ion-text>
     <ion-card 

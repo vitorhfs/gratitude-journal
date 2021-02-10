@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild,  } from '@angular/core';
-import { ActionSheetController, IonContent, IonList } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { PhrasesService } from '../../service/phrases.service';
 import { UserService } from '../../service/user.service';
 import { FormControl } from '@angular/forms';
 import { AuthService } from '@auth0/auth0-angular';
+import { PhraseSingle } from 'src/app/models/phrases.model';
 
 @Component({
   selector: 'app-main-screen',
@@ -16,67 +17,10 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class MainScreenComponent implements OnInit {
   user$: User;
-  phrases$: {
-    id: string;
-    content: string;
-    date: string;
-  }[];
+  phrases$: PhraseSingle[];
   currentPhraseId: string;
-  newPhraseState: boolean = true;
   text = new FormControl('');
-  phrasesTest = [
-    {
-      id: '123132',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '254234234',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '23423423',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '3576456',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '456456456',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '34684786',
-      content: 'Texto maior pra testar o quanto fica legal na UI ainda, acho que até um pouco mais',
-      date: new Date()
-    },
-    {
-      id: '412512312',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '670584587345',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '47562352',
-      content: 'Texto',
-      date: new Date()
-    },
-    {
-      id: '3124312',
-      content: 'Texto',
-      date: new Date()
-    },
-  ]
-
+  
   constructor(
     public phrasesService: PhrasesService, 
     public userService: UserService,
@@ -91,18 +35,20 @@ export class MainScreenComponent implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getUser();     
+    this.getUser();    
+  }
+
+  ionViewDidEnter(){
+    
   }
 
   getUser(){
     this.auth.user$.subscribe(data => {
       if(data.sub){
-        console.log(data.sub)
         this.userService.getUser(data.sub)
         .subscribe(user => {
-          this.user$ = user;
-          this.getPhrases();
-          this.checkPhraseInput();          
+          this.user$ = user;                      
+          this.getPhrases();       
         });
       }
     })
@@ -111,12 +57,7 @@ export class MainScreenComponent implements OnInit {
   getPhrases() {    
     this.phrasesService.getPhrasesList(this.user$.userId)
     .subscribe(phrases => {      
-      if(this.phrases$){
-        this.phrases$ = phrases.phrasesList.sort((a, b) => +b.date - +a.date);               
-        this.checkPhraseInput();
-      }
-      this.phrases$ = phrases.phrasesList;
-      this.checkPhraseInput();
+      this.phrases$ = phrases.phrasesList.sort((a, b) => +b.date - +a.date);
     });
   }
 
@@ -134,24 +75,26 @@ export class MainScreenComponent implements OnInit {
 
   deletePhrases(id: string){
     this.phrasesService.deletePhrase(id)
-    .subscribe(item => {
+    .subscribe(_item => {
       this.getPhrases();
     })
   }
 
-  checkPhraseInput(){ 
-    if(this.phrases$ === []){
-      this.newPhraseState = true;
+  checkPhraseInput(list: PhraseSingle[]){  
+    if(list === [] || undefined){
+      return true;
     }
 
-    const regex = /\d{4}\-\d{2}\-\d{2}/;
-    const date = new Date(+this.phrases$[this.phrases$.length - 1].date)
-    .toISOString().match(regex);
-    const dateNow = new Date(Date.now()).toISOString().match(regex);
-
-    if (date[0] === dateNow[0]){
-      this.newPhraseState = false;
+    if(list[0]){
+      const regex = /\d{4}\-\d{2}\-\d{2}/;
+      const date = new Date(+list[0].date)
+      .toISOString().match(regex);
+      const dateNow = new Date(Date.now()).toISOString().match(regex);    
+      
+      return date[0] === dateNow[0] ? false : true;
     }
+
+    return true;
   }
 
   async presentActionSheet(){
@@ -193,7 +136,7 @@ export class MainScreenComponent implements OnInit {
         }, {
           text: 'Yes',
           handler: () => {
-            this.deletePhrases(this.currentPhraseId);                
+            this.deletePhrases(this.currentPhraseId);            
           }
         }
       ]
