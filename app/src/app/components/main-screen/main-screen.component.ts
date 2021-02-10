@@ -1,5 +1,5 @@
-import { Component, OnInit,  } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { Component, OnInit, ViewChild,  } from '@angular/core';
+import { ActionSheetController, IonContent, IonList } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -24,6 +24,58 @@ export class MainScreenComponent implements OnInit {
   currentPhraseId: string;
   newPhraseState: boolean = true;
   text = new FormControl('');
+  phrasesTest = [
+    {
+      id: '123132',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '254234234',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '23423423',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '3576456',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '456456456',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '34684786',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '412512312',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '670584587345',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '47562352',
+      content: 'Texto',
+      date: new Date()
+    },
+    {
+      id: '3124312',
+      content: 'Texto',
+      date: new Date()
+    },
+  ]
 
   constructor(
     public phrasesService: PhrasesService, 
@@ -39,7 +91,7 @@ export class MainScreenComponent implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getUser();  
+    this.getUser();     
   }
 
   getUser(){
@@ -49,7 +101,7 @@ export class MainScreenComponent implements OnInit {
         .subscribe(user => {
           this.user$ = user;
           this.getPhrases();
-          this.checkPhraseInput();
+          this.checkPhraseInput();          
         });
       }
     })
@@ -59,7 +111,7 @@ export class MainScreenComponent implements OnInit {
     this.phrasesService.getPhrasesList(this.user$.userId)
     .subscribe(phrases => {      
       if(this.phrases$){
-        this.phrases$ = phrases.phrasesList.sort((a, b) => +a.date - +b.date);               
+        this.phrases$ = phrases.phrasesList.sort((a, b) => +b.date - +a.date);               
         this.checkPhraseInput();
       }
       this.phrases$ = phrases.phrasesList;
@@ -148,4 +200,5 @@ export class MainScreenComponent implements OnInit {
 
     await alert.present();
   }
+
 }

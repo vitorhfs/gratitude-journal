@@ -1,0 +1,22 @@
+.auth__header{
+  text-align: center;
+}
+
+.auth__content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &-card{
+    margin: 100px auto;
+    width: 250px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &-icon{
+    margin-bottom: 1em;
+  }
+}

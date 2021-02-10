@@ -1,11 +1,18 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="auth__header">
+  <ion-toolbar color="primary">
     <ion-title>Gratitude Journal</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-  <ion-card *ngIf="(auth.isAuthenticated$ | async) === false">
-    <app-login-button></app-login-button>
-    <app-signup-button></app-signup-button>
+<ion-content 
+  class="auth__content" 
+  color="secondary">
+  <ion-progress-bar *ngIf="auth.isAuthenticated$ | async" type="indeterminate" reversed="true"></ion-progress-bar>
+  <ion-card 
+    class="auth__content-card"
+    *ngIf="(auth.isAuthenticated$ | async) === false">
+    <ion-icon size="large" class="auth__content-icon" name="person-outline"></ion-icon>
+    <app-login-button class="auth__content-button"></app-login-button>
+    <app-signup-button class="auth__content-button"></app-signup-button>
   </ion-card>
-<ion-content>
+  
+</ion-content>

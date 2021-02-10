@@ -1,23 +1,31 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="main__header">
+  <ion-toolbar class="main__header-tb" color="primary">
     <ion-title *ngIf="user$">Hi, {{user$.username}}</ion-title>
-    <app-logout-button></app-logout-button>
+    <app-logout-button class="main__header-logout"></app-logout-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list padding *ngIf="phrases$">
-    <ion-item padding *ngFor="let item of phrases$" (click)="presentActionSheet(); currentPhraseId = item.id">
+<ion-content class="main__content">
+  <ion-list class="main__content-list" *ngIf="phrases$" color="secondary">
+    <!-- <ion-item padding *ngFor="let item of phrases$" (click)="presentActionSheet(); currentPhraseId = item.id">
       <h2>{{ item.content }}</h2>
       <p>{{ item.date | date: 'short' }}</p>
-    </ion-item>
+    </ion-item> -->
+    <ion-card class="main__content-newPhrase" *ngIf="newPhraseState">
+      <ion-label position="stacked">What made you grateful today?</ion-label>
+      <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
+      <ion-button (click)="postPhrase()">Confirm</ion-button>
+    </ion-card>
+    <ion-card class="main__content-existingPhrase" *ngIf="!newPhraseState">
+      <h1>You've already written today! :)</h1>
+    </ion-card>
+    <ion-card button="true" class="main__content-card" *ngFor="let item of phrasesTest">
+      <h2>{{ item.content }}</h2>
+      <div class="main__content-date">
+        <p>{{ item.date | date: 'mediumDate' }}</p>
+        <p>{{ item.date | date: 'shortTime'}}</p>
+      </div>
+    </ion-card>
+
   </ion-list>
-  <ion-item *ngIf="newPhraseState">
-    <ion-label position="stacked">What made you grateful today?</ion-label>
-    <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
-    <ion-button (click)="postPhrase()">Confirm</ion-button>
-  </ion-item>
-  <ion-item *ngIf="!newPhraseState">
-    <h1>You've already written today! :)</h1>
-  </ion-item>
 </ion-content>
