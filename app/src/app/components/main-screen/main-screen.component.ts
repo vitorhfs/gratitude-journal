@@ -52,7 +52,7 @@ export class MainScreenComponent implements OnInit {
     },
     {
       id: '34684786',
-      content: 'Texto',
+      content: 'Texto maior pra testar o quanto fica legal na UI ainda, acho que até um pouco mais',
       date: new Date()
     },
     {
@@ -97,6 +97,7 @@ export class MainScreenComponent implements OnInit {
   getUser(){
     this.auth.user$.subscribe(data => {
       if(data.sub){
+        console.log(data.sub)
         this.userService.getUser(data.sub)
         .subscribe(user => {
           this.user$ = user;

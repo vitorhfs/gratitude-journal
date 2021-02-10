@@ -1,0 +1,36 @@
+.edit__header{
+  &-date{
+    margin: auto;
+    h1{
+      margin: auto;
+    }
+  }
+}
+
+.edit__content{
+  height: 100%;
+  &-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+  }
+  &-input{
+    margin: 1em auto;
+    padding: 1em .5em;    
+    width: 90%;
+    border: 3px solid var(--ion-color-primary-shade);
+    border-radius: .5em;
+    background-color: var(--ion-color-tertiary-tint);
+    color: var(--ion-color-dark);
+    outline: none;
+    resize: none;
+    overflow: auto;
+    height: 25vh;
+    font-size: x-large;
+    max-width: 550px;
+  }
+  &-button{
+    width: 90%;
+  }
+}

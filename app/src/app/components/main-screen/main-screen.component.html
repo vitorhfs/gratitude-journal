@@ -1,13 +1,21 @@
 <ion-header class="main__header">
   <ion-toolbar class="main__header-tb" color="primary">
-    <ion-title *ngIf="user$">Hi, {{user$.username}}</ion-title>
-    <app-logout-button class="main__header-logout"></app-logout-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="main__header-greeting">
+          <ion-title *ngIf="user$">Hi, {{user$.username}}</ion-title>
+        </ion-col>      
+        <ion-col size="2">
+          <app-logout-button class="main__header-logout"></app-logout-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>    
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="main__content">
   <ion-list class="main__content-list" *ngIf="phrases$" color="secondary">
-    <!-- <ion-item padding *ngFor="let item of phrases$" (click)="presentActionSheet(); currentPhraseId = item.id">
+    <!-- <ion-item padding >
       <h2>{{ item.content }}</h2>
       <p>{{ item.date | date: 'short' }}</p>
     </ion-item> -->
@@ -16,15 +24,27 @@
       <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
       <ion-button (click)="postPhrase()">Confirm</ion-button>
     </ion-card>
-    <ion-card class="main__content-existingPhrase" *ngIf="!newPhraseState">
+    <ion-text class="main__content-existingPhrase" *ngIf="!newPhraseState">
       <h1>You've already written today! :)</h1>
-    </ion-card>
-    <ion-card button="true" class="main__content-card" *ngFor="let item of phrasesTest">
-      <h2>{{ item.content }}</h2>
-      <div class="main__content-date">
-        <p>{{ item.date | date: 'mediumDate' }}</p>
-        <p>{{ item.date | date: 'shortTime'}}</p>
-      </div>
+    </ion-text>
+    <ion-card 
+      button="true" 
+      class="main__content-card" 
+      *ngFor="let item of phrases$" 
+      (click)="presentActionSheet(); currentPhraseId = item.id">
+      <ion-grid class="main__content-cardGrid">
+        <ion-row>
+          <ion-col class="main__content-phrase">
+            <h2>{{ item.content }}</h2>
+          </ion-col>
+          <ion-col class="main__content-date" size="3">
+            <div>
+              <p>{{ item.date | date: 'mediumDate' }}</p>
+              <p>{{ item.date | date: 'shortTime'}}</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>      
     </ion-card>
 
   </ion-list>

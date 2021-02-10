@@ -1,13 +1,27 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
-    </ion-buttons>
+<ion-header class="edit__header">
+  <ion-toolbar class="edit__header-tb" color="primary">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-buttons>
+            <ion-back-button defaultHref="home"></ion-back-button>
+          </ion-buttons>      
+        </ion-col>      
+        <ion-col *ngIf="phrase" class="edit__header-date">
+          <h1>{{phrase.date | date: 'longDate'}}</h1>
+        </ion-col>
+      </ion-row>
+    </ion-grid>    
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="phrase">
-  <ion-label></ion-label>
-  <ion-input #nameInput [formControl]="name" (input)="name.setValue(nameInput.value)"></ion-input>
-  <ion-button (click)="confirm()" expand="block">Confirm Editing</ion-button>
+<ion-content class="edit__content" *ngIf="!phrase">
+  <ion-progress-bar type="indeterminate" reversed="true"></ion-progress-bar>
+</ion-content>
+
+<ion-content color="secondary" *ngIf="phrase">
+  <div class="edit__content-form">
+    <textarea class="edit__content-input" #nameInput [formControl]="name" (input)="name.setValue(nameInput.value)"></textarea>
+    <ion-button class="edit__content-button" (click)="confirm()" expand="block">Confirm Editing</ion-button>
+  </div>
 </ion-content>

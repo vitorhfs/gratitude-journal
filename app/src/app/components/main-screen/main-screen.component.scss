@@ -1,19 +1,54 @@
+.main__header{
+  &-tb{
+    padding: 0 10%;
+  }
+  &-logout{
+    cursor: pointer;
+  }
+  &-greeting{
+    margin: auto;
+    word-break: break-all;
+    max-width: 80%;
+  }
+}
+
 .main__content{
   &-list{
-    background-color: #6dc2a9;
+    background-color: var(--ion-color-secondary);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: column;    
     align-items: center;
+    min-height: 100%;
   }
   &-card{
     display: flex;
-    padding: 1em;
-    margin: 1em;    
-    width: 350px;
+    width: 90%;
+    padding-left: 1em;    
+    @media screen and (min-width: 900px) {
+      width: 550px;
+    }
   }
   &-newPhrase{
-    width: 350px;
+    width: 90%;
     padding: 1em;
+    margin: 1em 10vw;
+    @media screen and (min-width: 900px) {
+      width: 550px;
+    }
+  }
+  &-existingPhrase{
+    color: var(--ion-color-light)
+  }
+  &-phrase{
+    padding-right: 1em;
+  }
+  &-date{
+    padding: 1em 1em 1em 0.5em;
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-light-shade);
+    text-align: end;
+  }
+  &-cardGrid{
+    padding: 0;
   }
 }
