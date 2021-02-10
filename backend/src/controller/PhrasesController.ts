@@ -5,10 +5,10 @@ import { Phrase } from "../entity/Phrase";
 export default {
   async post (req: Request, res: Response){
     const id = req.params.id;
-    const { content } = req.body;
+    const { content, date } = req.body;
     try {
       const newPhrase = getRepository(Phrase).create({
-        date: `${new Date().getTime()}`,
+        date: date,
         user: id,
         content: content
       });
