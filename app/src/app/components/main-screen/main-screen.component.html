@@ -15,10 +15,6 @@
 
 <ion-content class="main__content">
   <ion-list class="main__content-list" *ngIf="phrases$" color="secondary">
-    <!-- <ion-item padding >
-      <h2>{{ item.content }}</h2>
-      <p>{{ item.date | date: 'short' }}</p>
-    </ion-item> -->
     <ion-card class="main__content-newPhrase" *ngIf="(checkPhraseInput(phrases$)) === true">
       <ion-label position="stacked">What made you grateful today?</ion-label>
       <ion-textarea #phraseText [formControl]="text" (input)="text.setValue(phraseText.value)" ></ion-textarea>
